@@ -1,14 +1,28 @@
 use std::fmt;
+
+pub enum WallFlavor {
+	Horizontal,
+	Vertical
+}
 pub enum Symbol {
 	Player,
-	Nothing
+	Wall(WallFlavor),
+	Newline,
+	Space,
+	Floor,
 }
 
 impl fmt::Display for Symbol {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 		write!(f, "{}", match self {
 			Symbol::Player => "@",
-			Symbol::Nothing => " "
+			Symbol::Wall(flavor) => match flavor {
+				WallFlavor::Horizontal => "-",
+				WallFlavor::Vertical   => "|"
+			},
+			Symbol::Newline => "\r\n",
+			Symbol::Space => " ",
+			Symbol::Floor => "#"
 		})
 	}
 }
